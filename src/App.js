@@ -4,7 +4,7 @@ import "./styles.css";
 import { Magic } from "magic-sdk";
 import { TezosExtension } from "@magic-ext/tezos";
 
-const magic = new Magic("pk_test_14BB008A685E26E4", {
+const magic = new Magic("pk_test_4D84A95497B1CF87", {
   extensions: {
     tezos: new TezosExtension({
       rpcUrl: "https://tezos-dev.cryptonomic-infra.tech:443/"
