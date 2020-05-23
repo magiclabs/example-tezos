@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./styles.css";
 
 import { Magic } from "magic-sdk";
-import { TezosExtension } from "@magic-sdk/extension-tezos";
+import { TezosExtension } from "@magic-ext/tezos";
 
-const magic = new Magic("pk_test_4D84A95497B1CF87", {
+const magic = new Magic("pk_test_14BB008A685E26E4", {
   extensions: {
     tezos: new TezosExtension({
       rpcUrl: "https://tezos-dev.cryptonomic-infra.tech:443/"
@@ -46,7 +46,7 @@ export default function App() {
   const handlerSendTransaction = async () => {
     const result = await magic.tezos.sendTransactionOperation(
       destinationAddress,
-      parseInt(sendXTZAmount * 100000),
+      parseInt(sendXTZAmount * 1000000),
       15000,
       ""
     );
