@@ -4,7 +4,7 @@ import "./styles.css";
 import { Magic } from "magic-sdk";
 import { TezosExtension } from "@magic-sdk/extension-tezos";
 
-const magic = new Magic("pk_test_7967AF810E630E08", {
+const magic = new Magic("pk_test_4D84A95497B1CF87", {
   extensions: {
     tezos: new TezosExtension({
       rpcUrl: "https://tezos-dev.cryptonomic-infra.tech:443/"
@@ -16,10 +16,11 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [publicAddress, setPublicAddress] = useState("");
   const [destinationAddress, setDestinationAddress] = useState("");
-  const [sendXTYAmount, setSendXTYAmount] = useState(0);
+  const [sendXTZAmount, setSendXTZAmount] = useState(0);
   const [contractoperationGroupID, setContractoperationGroupID] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userMetadata, setUserMetadata] = useState({});
+  const [transactionOperationGroupID, setTransactionOperationGroupID] = useState("");
 
   useEffect(() => {
     magic.user.isLoggedIn().then(async magicIsLoggedIn => {
@@ -45,11 +46,18 @@ export default function App() {
   const handlerSendTransaction = async () => {
     const result = await magic.tezos.sendTransactionOperation(
       destinationAddress,
-      sendXTYAmount,
+      parseInt(sendXTZAmount * 100000),
       15000,
       ""
     );
-    console.log(`Injected operation group id ${result.operationGroupID}`);
+
+    const operationGroupID = result.operationGroupID.trim();
+
+    setTransactionOperationGroupID(
+        operationGroupID.substring(1, operationGroupID.length - 1)
+    );
+    console.log(`Injected operation group id ${operationGroupID}`);
+
   };
 
   const handleSendContractOrigination = async () => {
@@ -145,6 +153,24 @@ export default function App() {
           </div>
           <div className="container">
             <h1>Send Transaction</h1>
+            {
+              transactionOperationGroupID ?
+                  <div>
+                    <div>
+                      Send transaction success
+                    </div>
+                    <div className="info">
+                      <a
+                          href={`https://carthagenet.tzstats.com/${transactionOperationGroupID}`}
+                          target="_blank"
+                      >
+                        {transactionOperationGroupID}
+                      </a>
+                    </div>
+                  </div>
+                  :
+                  <div/>
+            }
             <input
               type="text"
               name="destination"
@@ -160,9 +186,9 @@ export default function App() {
               name="amount"
               className="full-width"
               required="required"
-              placeholder="Amount in XTY"
+              placeholder="Amount in XTZ"
               onChange={event => {
-                setSendXTYAmount(event.target.value);
+                setSendXTZAmount(event.target.value);
               }}
             />
             <button id="btn-send-txn" onClick={handlerSendTransaction}>
