@@ -7,7 +7,7 @@ import { TezosExtension } from "@magic-ext/tezos";
 const magic = new Magic("pk_live_C20A087BDF08A859", {
   extensions: {
     tezos: new TezosExtension({
-      rpcUrl: "https://tezos-dev.cryptonomic-infra.tech:443/"
+      rpcUrl: "https://ghostnet.tezos.marigold.dev"
     })
   }
 });
@@ -34,7 +34,7 @@ export default function App() {
   }, [isLoggedIn]);
 
   const login = async () => {
-    await magic.auth.loginWithMagicLink({ email });
+    await magic.auth.loginWithEmailOTP({ email });
     setIsLoggedIn(true);
   };
 
@@ -144,7 +144,7 @@ export default function App() {
             <h1>Tezos address</h1>
             <div className="info">
               <a
-                href={`https://carthagenet.tzstats.com/${publicAddress}`}
+                href={`https://ghostnet.tzkt.io/${publicAddress}`}
                 target="_blank"
               >
                 {publicAddress}
@@ -161,7 +161,7 @@ export default function App() {
                     </div>
                     <div className="info">
                       <a
-                          href={`https://carthagenet.tzstats.com/${transactionOperationGroupID}`}
+                          href={`https://ghostnet.tzkt.io/${transactionOperationGroupID}`}
                           target="_blank"
                       >
                         {transactionOperationGroupID}
@@ -199,7 +199,7 @@ export default function App() {
             <h1>Smart Contract</h1>
             <div className="info">
               <a
-                href={`https://carthagenet.tzstats.com/${contractoperationGroupID}`}
+                href={`https://ghostnet.tzkt.io/${contractoperationGroupID}`}
                 target="_blank"
               >
                 {contractoperationGroupID}
